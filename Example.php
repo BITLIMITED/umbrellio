@@ -9,7 +9,6 @@ require_once(dirname(__FILE__)."/ExampleMethods.php");
 
 #
 #	Class Example
-#	return array( Key [current row] = Value [first position] )
 #
 class Example
 {
@@ -19,12 +18,14 @@ class Example
 	
 	public $config;
 	
-	public function __construct($filename = null) {
+	public function __construct($filename = null)
+	{
 		if(empty($this->config))
 			$this->config = parse_ini_file(dirname(__FILE__)."/config.ini");
 		
 		if(empty($this->filename) and !is_null($filename)){
-			try{
+			try
+			{
 				$this->filename = $this->checked($filename);
 			}catch(\Exception $error){
 				$this->error = $error;
@@ -32,21 +33,26 @@ class Example
 		}
 	}
 	
-	protected function clearError(){
+	private function clearError()
+	{
 		return $this->error = null;
 	}
+	
 	#
-	#	set method
+	#	установка медота
 	#
 	public function setMethod($method)
 	{
 		$object = __NAMESPACE__ ."\\".$method;
-		$this->method = new $object();
+		if(class_exists($object))
+			$this->method = new $object();
 	}
+	
 	#
-	#	set filename
+	#	установка файла 
 	#
-	public function setFile($filename = null){
+	public function setFile($filename = null)
+	{
 		if(empty($this->filename) and !empty($filename))
 		{
 			$this->clearError();
@@ -59,7 +65,7 @@ class Example
 	}
 	
 	#
-	#	читаем файл
+	#	читаем файл 
 	#
 	public function ready($keyword = null)
 	{ 
@@ -74,9 +80,9 @@ class Example
 	}
 	
 	#
-	# проверка файла
+	#	проверка файла
 	#
-	public function checked($filename):string
+	private function checked($filename):string
 	{
 		if(is_null($filename) or !is_string($filename))
 			throw new \Exception("Пустое название файла!");

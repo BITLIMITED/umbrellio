@@ -12,18 +12,22 @@ class FileFromServer implements MethodIterator
 		{
 			fseek($file_handle, 0);
 			#
-			#	start row
+			#	устанавливаем стартовую строку
 			#
 			$row = 1;
 			
-			$is_step = (empty($step)) ? 1024 : ($step <= 0) ? 1024 : $step;
 			#
-			#	selected current row from file
+			#	устанавливаем шаг по строке
+			#
+			$is_step = (empty($step)) ? 1024 : ($step <= 0) ? 1024 : $step;
+			
+			#
+			#	перебераем строки
 			#
 			while(fgetss($file_handle) !== false)
 			{
 				#
-				#	selected key first position from row
+				#	перебераем строку 
 				#
 				while(($file_row = fgets($file_handle, $is_step)) !== false)
 				{
